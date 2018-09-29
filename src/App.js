@@ -11,7 +11,7 @@ class App extends Component {
           <h1 className="App-title">JS GUI Tool</h1>
         </header>
         <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
+          To get started, write some code in the box below. Refer to the docs to create simple UI elements.
         </p>
       </div>
     );
