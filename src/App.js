@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import interact from 'interactjs';
+import CodeFlask from 'codeflask';
+
 
 class App extends Component {
   render() {
@@ -11,6 +14,7 @@ class App extends Component {
           <h1 className="App-title">JS GUI Tool</h1>
         </header>
         <p className="App-intro">
+        <div id="code-area"></div>
           To get started, write some code in the box below. Refer to the docs to create simple UI elements.
         </p>
       </div>
