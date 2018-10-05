@@ -4,6 +4,7 @@ import './App.css';
 import interact from 'interactjs';
 import CodeFlask from 'codeflask';
 
+const welcome = "testaroo"
 
 class App extends Component {
   render() {
@@ -11,7 +12,7 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">JS GUI Tool</h1>
+          <Welcome />
         </header>
         <p className="App-intro">
         <div id="code-area"></div>
@@ -19,6 +20,14 @@ class App extends Component {
         </p>
       </div>
     );
+  }
+}
+
+class Welcome extends Component {
+  render() {
+    return (
+      <h1 className="App-title">JS GUI Tool {welcome}</h1>
+    )
   }
 }
 
