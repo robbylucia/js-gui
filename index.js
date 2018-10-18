@@ -10,3 +10,7 @@ listen("ALARM", function() {
   console.log('Alarm event detected!')
   add([checkbox(false), label('Do more cool stuff.'), line()])
 })
+
+
+// experimental
+addEl("<input> Here </input>")
