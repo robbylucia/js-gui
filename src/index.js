@@ -4,36 +4,53 @@ import d3 from "d3";
 showdown.setFlavor('github');
 const converter = new showdown.Converter();
 
+// Misc helpers
+const round = (n, places) => {
+  let factor = 10 ** places;
+  return Math.round(n * factor) / factor;
+}
 
-// helper functions
+function ElementException(msg) {
+  this.msg = msg;
+  this.name = 'ElementException';
+}
 
+// JSGUI helper functions
+
+/**
+ * `md` converts markdown to HTML using showdown.js.
+ * @param {string} text - The markdown to be converted.
+ * @return span element
+ */
 const md = (text) => {
   let span = el("span");
   span.innerHTML = converter.makeHtml(text);
   return span;
 }
 
+/**
+ * `isIterable` returns a boolean if param is iterable
+ * @param t the element to be checked
+ * @return boolean
+ */
 const isIterable = (t) => {
   return typeof t[Symbol.iterator] === 'function';
 }
 
+// adds a class to an element
 const addClass = (el, clazz) => {
   el.className += " " + clazz;
 }
 
-const round = (n, places) => {
-  let factor = 10 ** places;
-  return Math.round(n * factor) / factor;
-}
-
-
+// adds css to an element
 const addCss = (tag, clazzes) => {
   let items = document.getElementsByTagName(tag);
   for (let i of items) {
     addClass(i, clazzes);
   }
 }
-//add sensible bootstrap css styling
+
+// add sensible bootstrap css styling
 const bootstrapify = () => {
   addCss("table", "table table-sm");
   addCss("dl", "row");
@@ -42,7 +59,7 @@ const bootstrapify = () => {
   addCss("img", "img-fluid");
 }
 
-// GUI METHODS
+// ========================== GUI METHODS
 
 // add element(s) to root, pass through single element OR an array of 'em
 let add = (el) => {
@@ -57,11 +74,7 @@ let add = (el) => {
   }
 }
 
-function ElementException(msg) {
-   this.msg = msg;
-   this.name = 'ElementException';
-}
-
+// adds element(s) to a container element
 const append = (container, ...elements) => {
   // if child is not a node, append it as a label
   // todo: give a warning if it's not a node or typeof string
@@ -88,7 +101,7 @@ const append = (container, ...elements) => {
   return container;
 }
 
-// ========================== base GUI ELEMENTS
+// ========================== Base GUI ELEMENTS
 
 /**
  * `el` creates a DOM element based on a tag
@@ -119,7 +132,6 @@ const el = (tag, attr = {}, ...children) => {
     console.error("Children:", children);
     throw (e);
   }
-
 }
 
 let label = (txt) => {
@@ -136,7 +148,7 @@ let main = (attr, ...children) => el("main", attr, ...children);
 let aside = (attr, ...children) => el("aside", attr, ...children);
 
 let grid = (cols, attr) => {
-  if(cols > 12 || cols < 1) {
+  if (cols > 12 || cols < 1) {
     throw("Failed to create grid. Cols must be between 1-12, not", cols);
   }
   let c = div(attr);
@@ -148,10 +160,10 @@ let grid = (cols, attr) => {
   return c;
 }
 
-  const addToGrid = (grid, col, ...children) => {
-    let n = grid.querySelector(`.col-${col}`);
-    return append(n, children);
-  }
+const addToGrid = (grid, col, ...children) => {
+  let n = grid.querySelector(`.col-${col}`);
+  return append(n, children);
+}
 
 
 // ===================================== navigation
@@ -172,7 +184,7 @@ let caption = (txt, attr, children = []) => el("caption", attr, txt, ...children
 let br = () => el("br");
 let hr = () => el("hr");
 
-let img = (url, alt)=>{
+let img = (url, alt = "image")=>{
   return el("img", {src: url, alt: alt});
 }
 
@@ -196,7 +208,6 @@ let thead = (cells, attr = {}) => {
   cells = cells.map(th);
   row = append(row, cells);
   return append(head, row);
-
 }
 
 let tr = (cells = [], attr = {}) => {
@@ -280,3 +291,4 @@ export { round, bootstrapify, add, h1, h2, h3, h4, h5, h6, div };
 
 // dev only below
 add(h5("jsgui debug : " + Math.round(Math.random() * 100), { style: "box-shadow: 0 0 100px 0px #b9d854; position: fixed; top: 0; right: 0; padding: 0.5em; background: #282828; color: #BADA55" }))
+add(img("https://picsum.photos/400/400/?random", "Random test image"))
