@@ -275,4 +275,7 @@ export default {
   addToGrid: addToGrid
 };
 
+
 export { round, bootstrapify, add, h1, h2, h3, h4, h5, h6, div };
+
+// add(h1("hiya"))
