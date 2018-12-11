@@ -2,6 +2,8 @@
 
 # dependencies
 /old/node_modules
+node_modules
+examples
 
 # testing
 /coverage

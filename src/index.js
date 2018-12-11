@@ -1,4 +1,5 @@
-// import showdown from "./showdown.min.js";
+import showdown from "showdown";
+import d3 from "d3";
 
 showdown.setFlavor('github');
 const converter = new showdown.Converter();
