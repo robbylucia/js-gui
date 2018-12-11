@@ -112,7 +112,7 @@ const el = (tag, attr = {}, ...children) => {
     return node;
   }
   catch (e) {
-    console.log(e)
+    console.error(e);
     console.error("Failed to create element:", tag);
     console.error("Attributes:", attr);
     console.error("Children:", children);
@@ -165,6 +165,7 @@ let h5 = (txt, attr, children = []) => el("h5", attr, txt, ...children);
 let h6 = (txt, attr, children = []) => el("h6", attr, txt, ...children);
 
 let p = (txt, attr, children = []) => el("p", attr, txt, ...children);
+let pre = (txt, attr, children = []) => el("pre", attr, txt, ...children);
 let caption = (txt, attr, children = []) => el("caption", attr, txt, ...children);
 
 let br = () => el("br");
