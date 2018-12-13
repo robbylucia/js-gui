@@ -287,7 +287,7 @@ export default {
 };
 
 
-export { round, bootstrapify, add, h1, h2, h3, h4, h5, h6, div };
+export { round, md, add, append, h1, h2, h3, h4, h5, h6, div, section, header, footer, main, aside, p, caption, table, br, hr, dl, img, grid, addToGrid };
 
 // dev only below
 add(h5("jsgui debug : " + Math.round(Math.random() * 100), { style: "box-shadow: 0 0 100px 0px #b9d854; position: fixed; top: 0; right: 0; padding: 0.5em; background: #282828; color: #BADA55" }))
