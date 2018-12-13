@@ -24643,6 +24643,8 @@ function defaultConstrain(transform, extent, translateExtent) {
 
 
 // CONCATENATED MODULE: ./src/index.js
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "demo", function() { return demo; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "bootstrapify", function() { return bootstrapify; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "round", function() { return src_round_0; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "md", function() { return md; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add", function() { return src_add; });
@@ -24752,7 +24754,7 @@ const src_append = (container, ...elements) => {
 
   const addToContainer = (el) => {
     if (!el) {
-      throw(new ElementException(`Cannot create an HTML element from null or undefined data: ${el}`));
+      throw (new ElementException(`Cannot create an HTML element from null or undefined data: ${el}`));
     }
 
     if (!el.nodeType) {
@@ -24819,12 +24821,12 @@ let aside = (attr, ...children) => el("aside", attr, ...children);
 
 let grid = (cols, attr) => {
   if (cols > 12 || cols < 1) {
-    throw("Failed to create grid. Cols must be between 1-12, not", cols);
+    throw ("Failed to create grid. Cols must be between 1-12, not", cols);
   }
   let c = div(attr);
   addClass(c, "row");
   for (let i = 1; i <= cols; i++) {
-    let col = el("div", {"class": `col-${i} col-sm`});
+    let col = el("div", { "class": `col-${i} col-sm` });
     c = src_append(c, col);
   }
   return c;
@@ -24854,8 +24856,8 @@ let caption = (txt, attr, children = []) => el("caption", attr, txt, ...children
 let br = () => el("br");
 let hr = () => el("hr");
 
-let img = (url, alt = "image")=>{
-  return el("img", {src: url, alt: alt});
+let img = (url, alt = "image") => {
+  return el("img", { src: url, alt: alt });
 }
 
 // ===================================== table
@@ -24920,48 +24922,49 @@ let src_dl = (items, attr) => {
     }
     return list;
   }
-  catch(e) {
+  catch (e) {
     console.error("Failed to create definition list <dl> from:", items);
-    throw(e);
+    throw (e);
   }
+}
+
+// debug, call jsgui.demo() for this
+let demo = () => {
+  src_add(h5("jsgui debug : " + Math.round(Math.random() * 100), { style: "box-shadow: 0 0 100px 0px #b9d854; position: fixed; top: 0; right: 0; padding: 0.5em; background: #282828; color: #BADA55" }))
+  src_add(img("https://picsum.photos/400/400/?random", "Random test image"))
 }
 
 
 
-/* harmony default export */ var src = __webpack_exports__["default"] = ({
-  round: src_round_0,
-  md: md,
-  add: src_add,
-  append: src_append,
-  h1: h1,
-  h2: h2,
-  h3: h3,
-  h4: h4,
-  h5: h5,
-  h6: h6,
-  div: div,
-  section: section,
-  header: header,
-  footer: footer,
-  main: src_main,
-  aside: aside,
-  p: src_p,
-  caption: caption,
-  table: table,
-  br: br,
-  hr: hr,
-  dl: src_dl,
-  img: img,
-  grid: grid,
-  addToGrid: addToGrid
-});
+// export default {
+//   round: round,
+//   md: md,
+//   add: add,
+//   append: append,
+//   h1: h1,
+//   h2: h2,
+//   h3: h3,
+//   h4: h4,
+//   h5: h5,
+//   h6: h6,
+//   div: div,
+//   section: section,
+//   header: header,
+//   footer: footer,
+//   main: main,
+//   aside: aside,
+//   p: p,
+//   caption: caption,
+//   table: table,
+//   br: br,
+//   hr: hr,
+//   dl: dl,
+//   img: img,
+//   grid: grid,
+//   addToGrid: addToGrid
+// };
 
 
-
-
-// dev only below
-src_add(h5("jsgui debug : " + Math.round(Math.random() * 100), { style: "box-shadow: 0 0 100px 0px #b9d854; position: fixed; top: 0; right: 0; padding: 0.5em; background: #282828; color: #BADA55" }))
-src_add(img("https://picsum.photos/400/400/?random", "Random test image"))
 
 /***/ })
 /******/ ]);
