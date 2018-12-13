@@ -1,5 +1,5 @@
 import showdown from "showdown";
-import d3 from "d3";
+import * as d3 from "d3";
 
 showdown.setFlavor('github');
 const converter = new showdown.Converter();
@@ -260,34 +260,27 @@ let dl = (items, attr) => {
 let demo = () => {
   add(h5("jsgui debug v0.2.1: " + Math.round(Math.random() * 100), { style: "box-shadow: 0 0 100px 0px #b9d854; position: fixed; top: 0; right: 0; padding: 0.5em; background: #282828; color: #BADA55" }))
   add(img("https://picsum.photos/400/400/?random", "Random test image"))
+  add(md("heya BUDDY"))
 }
 
-export default {
-  round: round,
-  md: md,
-  add: add,
-  append: append,
-  h1: h1,
-  h2: h2,
-  h3: h3,
-  h4: h4,
-  h5: h5,
-  h6: h6,
-  div: div,
-  section: section,
-  header: header,
-  footer: footer,
-  main: main,
-  aside: aside,
-  p: p,
-  caption: caption,
-  table: table,
-  br: br,
-  hr: hr,
-  dl: dl,
-  img: img,
-  grid: grid,
-  addToGrid: addToGrid
-};
+// export default {
+
+// };
 
 export { demo, bootstrapify, round, md, add, append, h1, h2, h3, h4, h5, h6, div, section, header, footer, main, aside, p, caption, table, br, hr, dl, img, grid, addToGrid };
+
+demo()
+
+var sampleSVG = d3.select("#viz")
+  .append("svg")
+  .attr("width", 100)
+  .attr("height", 100);
+
+sampleSVG.append("circle")
+  .style("stroke", "gray")
+  .style("fill", "white")
+  .attr("r", 40)
+  .attr("cx", 50)
+  .attr("cy", 50)
+  .on("mouseover", function () { d3.select(this).style("fill", "aliceblue"); })
+  .on("mouseout", function () { d3.select(this).style("fill", "white"); }); 
