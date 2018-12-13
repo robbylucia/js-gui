@@ -4,7 +4,6 @@ import d3 from "d3";
 showdown.setFlavor('github');
 const converter = new showdown.Converter();
 
-// Non exported functions
 // Misc helpers
 const round = (n, places) => {
   let factor = 10 ** places;
@@ -14,6 +13,19 @@ const round = (n, places) => {
 function ElementException(msg) {
   this.msg = msg;
   this.name = 'ElementException';
+}
+
+// JSGUI helper functions
+
+/**
+ * `md` converts markdown to HTML using showdown.js.
+ * @param {string} text - The markdown to be converted.
+ * @return span element
+ */
+const md = (text) => {
+  let span = el("span");
+  span.innerHTML = converter.makeHtml(text);
+  return span;
 }
 
 /**
@@ -38,80 +50,66 @@ const addCss = (tag, clazzes) => {
   }
 }
 
-// JSGUI helper functions
-// this is now in a big fat object for easier auto exporting
-const jsgui = {
-  /**
-   * `md` converts markdown to HTML using showdown.js.
-   * @param {string} text - The markdown to be converted.
-   * @return span element
- */
-  md: (text) => {
-    let span = el("span");
-    span.innerHTML = converter.makeHtml(text);
-    return span;
-  },
-
-  bootstrapify: () => {
-    addCss("table", "table table-sm");
-    addCss("dl", "row");
-    addCss("dt", "font-weight-bold col-sm-3 col-lg-2 text-right");
-    addCss("dd", "col-sm-9 col-lg-10");
-    addCss("img", "img-fluid");
-  },
+// add sensible bootstrap css styling
+const bootstrapify = () => {
+  addCss("table", "table table-sm");
+  addCss("dl", "row");
+  addCss("dt", "font-weight-bold col-sm-3 col-lg-2 text-right");
+  addCss("dd", "col-sm-9 col-lg-10");
+  addCss("img", "img-fluid");
+}
 
 // ========================== GUI METHODS
-  add: (el) => {
-    console.info("Adding element", el, "to root");
-    let root = document.getElementById("root");
-    if (Array.isArray(el)) {
-      el.forEach((x) => {
-        jsgui.append(root, x);
-      })
-    } else {
-      jsgui.append(root, el);
-    }
-  },
 
-  append: (container, ...elements) => {
-    // if child is not a node, append it as a label
-    // todo: give a warning if it's not a node or typeof string
-    // todo: give a warning if it's not a valid child of the node tag
+// add element(s) to root, pass through single element OR an array of 'em
+let add = (el) => {
+  console.info("Adding element", el, "to root");
+  let root = document.getElementById("root");
+  if (Array.isArray(el)) {
+    el.forEach((x) => {
+      append(root, x);
+    })
+  } else {
+    append(root, el);
+  }
+}
 
-    const addToContainer = (el) => {
-      if (!el) {
-        throw (new ElementException(`Cannot create an HTML element from null or undefined data: ${el}`));
-      }
+// adds element(s) to a container element
+const append = (container, ...elements) => {
+  // if child is not a node, append it as a label
+  // todo: give a warning if it's not a node or typeof string
+  // todo: give a warning if it's not a valid child of the node tag
 
-<<<<<<< HEAD
   const addToContainer = (el) => {
     if (!el) {
       throw (new ElementException(`Cannot create an HTML element from null or undefined data: ${el}`));
-=======
-      if (!el.nodeType) {
-        console.warn("Appending el without nodetype: ", el);
-        el = jsgui.label(String(el));
-      }
-      container.appendChild(el);
->>>>>>> 28915124b077c68c1c3f98707b57e730fcf54bcd
     }
 
-    if (elements.length === 1 && Array.isArray(elements[0])) {
-      console.log("iterable elements", elements);
-      elements = elements[0];
+    if (!el.nodeType) {
+      console.warn("Appending el without nodetype: ", el);
+      el = label(String(el));
     }
-    elements.forEach(addToContainer);
-    return container;
-  },
+    container.appendChild(el);
+  }
 
-  /**
+  if (elements.length === 1 && Array.isArray(elements[0])) {
+    console.log("iterable elements", elements);
+    elements = elements[0];
+  }
+  elements.forEach(addToContainer);
+
+  return container;
+}
+
+// ========================== Base GUI ELEMENTS
+
+/**
  * `el` creates a DOM element based on a tag
  * @param tag the HTML tag for this element
  * @param attr a map or object literal of html tag attributes
  * @param ...children will be appended as child nodes of this `el`
  * @return the new element
  */
-<<<<<<< HEAD
 const el = (tag, attr = {}, ...children) => {
   try {
     let node = document.createElement(tag);
@@ -189,142 +187,67 @@ let hr = () => el("hr");
 let img = (url, alt = "image") => {
   return el("img", { src: url, alt: alt });
 }
-=======
-  el: (tag, attr = {}, ...children) => {
-    try {
-      let node = document.createElement(tag);
-      children = children || [];
-      // todo: warn for invalid attributes in here
-      for (let [k, v] of Object.entries(attr)) {
-        node.setAttribute(k, v)
+
+// ===================================== table
+let table = (data = [], header, attr = {}) => {
+  let t = el("table", attr);
+  if (header) {
+    append(t, thead(header));
+  }
+
+  let rows = data.map(tr);
+  console.log(rows);
+  append(t, rows);
+  console.log(t);
+  return t;
+}
+
+let thead = (cells, attr = {}) => {
+  let head = el("thead");
+  let row = tr();
+  cells = cells.map(th);
+  row = append(row, cells);
+  return append(head, row);
+}
+
+let tr = (cells = [], attr = {}) => {
+  try {
+    let row = el("tr");
+    if (!isIterable(cells)) {
+      try {
+        cells = Object.values(cells);
       }
->>>>>>> 28915124b077c68c1c3f98707b57e730fcf54bcd
+      catch (e) {
+        console.error(`Error creating table row: bad cells data.
+cells must be iterable or return values from Object.values.
+cells: ${cells}`);
 
-      const a = child => jsgui.append(node, child);
-      console.log("Attributes:", attr);
-      children.forEach(a);
-
-      return node;
-    }
-    catch (e) {
-      console.error(e);
-      console.error("Failed to create element:", tag);
-      console.error("Attributes:", attr);
-      console.error("Children:", children);
-      throw (e);
-    }
-  },
-
-  label: (txt) => {
-    return document.createTextNode(txt);
-  },
-
-  
-  // ===================================== layout
-  div: (attr, ...children) => jsgui.el("div", attr, ...children),
-  section: (attr, ...children) => jsgui.el("section", attr, ...children),
-  header: (attr, ...children) => jsgui.el("header", attr, ...children),
-  footer: (attr, ...children) => jsgui.el("footer", attr, ...children),
-  main: (attr, ...children) => jsgui.el("main", attr, ...children),
-  aside: (attr, ...children) => jsgui.el("aside", attr, ...children),
-
-  grid : (cols, attr) => {
-    if (cols > 12 || cols < 1) {
-      throw ("Failed to create grid. Cols must be between 1-12, not", cols);
-    }
-    let c = jsgui.div(attr);
-    addClass(c, "row");
-    for (let i = 1; i <= cols; i++) {
-      let col = jsgui.el("div", { "class": `col-${i} col-sm` });
-      c = jsgui.append(c, col);
-    }
-    return c;
-  },
-
-  addToGrid: (grid, col, ...children) => {
-    let n = grid.querySelector(`.col-${col}`);
-    return jsgui.append(n, children);
-  },
-
-  // ===================================== navigation
-  nav: (attr, ...children) => jsgui.el("nav", attr, ...children),
-
-  // ===================================== typography
-  h1: (txt, attr, children = []) => jsgui.el("h1", attr, txt, ...children),
-  h2: (txt, attr, children = []) => jsgui.el("h2", attr, txt, ...children),
-  h3: (txt, attr, children = []) => jsgui.el("h3", attr, txt, ...children),
-  h4: (txt, attr, children = []) => jsgui.el("h4", attr, txt, ...children),
-  h5: (txt, attr, children = []) => jsgui.el("h5", attr, txt, ...children),
-  h6: (txt, attr, children = []) => jsgui.el("h6", attr, txt, ...children),
-  p: (txt, attr, children = []) => jsgui.el("p", attr, txt, ...children),
-  pre: (txt, attr, children = []) => jsgui.el("pre", attr, txt, ...children),
-  caption: (txt, attr, children = []) => jsgui.el("caption", attr, txt, ...children),
-  br: () => jsgui.el("br"),
-  hr: () => jsgui.el("hr"),
-  img: (url, alt = "image") => jsgui.el("img", { src: url, alt: alt }),
-
-  // ===================================== table
-  table: (data = [], header, attr = {}) => {
-    let t = jsgui.el("table", attr);
-    if (header) {
-      jsgui.append(t, jsgui.thead(header));
-    }
-
-    let rows = data.map(tr);
-    console.log(rows);
-    append(t, rows);
-    console.log(t);
-    return t;
-  },
-
-  thead: (cells, attr = {}) => {
-    let head = jsgui.el("thead");
-    let row = jsgui.tr();
-    cells = cells.map(th);
-    row = jsgui.append(row, cells);
-    return jsgui.append(head, row);
-  },
-  tr: (cells = [], attr = {}) => {
-    try {
-      let row = jsgui.el("tr");
-      if (!isIterable(cells)) {
-        try {
-          cells = Object.values(cells);
-        }
-        catch (e) {
-          console.error(`Error creating table row: bad cells data.
-          cells must be iterable or return values from Object.values.
-          cells: ${cells}`);
-        }
       }
-      let cols = cells.map(td);
-      return jsgui.append(row, cols);
     }
-    catch (e) {
-      console.error("Could not create table row.");
-      console.log("Cells:", cells);
-      console.log("Attr:", attr);
-      throw (e);
-    }
-  },
-  th: (content, attr, children = []) => jsgui.el("th", attr, content),
-  td: (content, attr, children = []) => jsgui.el("td", attr, content),
+    let cols = cells.map(td);
+    return append(row, cols);
 
-  // ========================== lists
-  dl: (items, attr) => {
-    try {
-      let list = jsgui.el("dl");
-      for (let [k, v] of Object.entries(items)) {
-        jsgui.append(list, jsgui.el("dt", {}, k));
-        jsgui.append(list, jsgui.el("dd", {}, v === undefined ? "undefined" : v));
-      }
-      return list;
+  }
+  catch (e) {
+    console.error("Could not create table row.");
+    console.log("Cells:", cells);
+    console.log("Attr:", attr);
+    throw (e);
+  }
+
+}
+let th = (content, attr, children = []) => el("th", attr, content);
+let td = (content, attr, children = []) => el("td", attr, content);
+
+
+// ========================== lists
+let dl = (items, attr) => {
+  try {
+    let list = el("dl");
+    for (let [k, v] of Object.entries(items)) {
+      append(list, el("dt", {}, k));
+      append(list, el("dd", {}, v === undefined ? "undefined" : v));
     }
-    catch (e) {
-      console.error("Failed to create definition list <dl> from:", items);
-      throw (e);
-    }
-<<<<<<< HEAD
     return list;
   }
   catch (e) {
@@ -335,48 +258,36 @@ let img = (url, alt = "image") => {
 
 // debug, call jsgui.demo() for this
 let demo = () => {
-  add(h5("jsgui debug : " + Math.round(Math.random() * 100), { style: "box-shadow: 0 0 100px 0px #b9d854; position: fixed; top: 0; right: 0; padding: 0.5em; background: #282828; color: #BADA55" }))
+  add(h5("jsgui debug v0.2.1: " + Math.round(Math.random() * 100), { style: "box-shadow: 0 0 100px 0px #b9d854; position: fixed; top: 0; right: 0; padding: 0.5em; background: #282828; color: #BADA55" }))
   add(img("https://picsum.photos/400/400/?random", "Random test image"))
 }
 
-
-
-// export default {
-//   round: round,
-//   md: md,
-//   add: add,
-//   append: append,
-//   h1: h1,
-//   h2: h2,
-//   h3: h3,
-//   h4: h4,
-//   h5: h5,
-//   h6: h6,
-//   div: div,
-//   section: section,
-//   header: header,
-//   footer: footer,
-//   main: main,
-//   aside: aside,
-//   p: p,
-//   caption: caption,
-//   table: table,
-//   br: br,
-//   hr: hr,
-//   dl: dl,
-//   img: img,
-//   grid: grid,
-//   addToGrid: addToGrid
-// };
+export default {
+  round: round,
+  md: md,
+  add: add,
+  append: append,
+  h1: h1,
+  h2: h2,
+  h3: h3,
+  h4: h4,
+  h5: h5,
+  h6: h6,
+  div: div,
+  section: section,
+  header: header,
+  footer: footer,
+  main: main,
+  aside: aside,
+  p: p,
+  caption: caption,
+  table: table,
+  br: br,
+  hr: hr,
+  dl: dl,
+  img: img,
+  grid: grid,
+  addToGrid: addToGrid
+};
 
 export { demo, bootstrapify, round, md, add, append, h1, h2, h3, h4, h5, h6, div, section, header, footer, main, aside, p, caption, table, br, hr, dl, img, grid, addToGrid };
-=======
-  }
-}
-export {jsgui};
-
-// dev only below
-jsgui.add(jsgui.h5("jsgui debug v1.1: " + Math.round(Math.random() * 100), { style: "box-shadow: 0 0 100px 0px #b9d854; position: fixed; top: 0; right: 0; padding: 0.5em; background: #282828; color: #BADA55" }))
-jsgui.add(jsgui.img("https://picsum.photos/400/400/?random", "Random test image"))
-jsgui.add(jsgui.h5("testaroo"))
->>>>>>> 28915124b077c68c1c3f98707b57e730fcf54bcd
