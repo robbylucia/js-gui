@@ -24650,6 +24650,7 @@ function defaultConstrain(transform, extent, translateExtent) {
 showdown_default.a.setFlavor('github');
 const converter = new showdown_default.a.Converter();
 
+// Non exported functions
 // Misc helpers
 const src_round_0 = (n, places) => {
   let factor = 10 ** places;
@@ -24660,7 +24661,6 @@ function ElementException(msg) {
   this.msg = msg;
   this.name = 'ElementException';
 }
-    // Non exported functions
 
 /**
  * `isIterable` returns a boolean if param is iterable
@@ -24684,8 +24684,8 @@ const addCss = (tag, clazzes) => {
   }
 }
 
-
 // JSGUI helper functions
+// this is now in a big fat object for easier auto exporting
 const jsgui = {
   /**
    * `md` converts markdown to HTML using showdown.js.
@@ -24705,6 +24705,7 @@ const jsgui = {
     addCss("dd", "col-sm-9 col-lg-10");
     addCss("img", "img-fluid");
   },
+
 // ========================== GUI METHODS
   add: (el) => {
     console.info("Adding element", el, "to root");
@@ -24742,6 +24743,7 @@ const jsgui = {
     elements.forEach(addToContainer);
     return container;
   },
+
   /**
  * `el` creates a DOM element based on a tag
  * @param tag the HTML tag for this element
@@ -24772,6 +24774,7 @@ const jsgui = {
       throw (e);
     }
   },
+
   label: (txt) => {
     return document.createTextNode(txt);
   },
@@ -24820,6 +24823,7 @@ const jsgui = {
   hr: () => jsgui.el("hr"),
   img: (url, alt = "image") => jsgui.el("img", { src: url, alt: alt }),
 
+  // ===================================== table
   table: (data = [], header, attr = {}) => {
     let t = jsgui.el("table", attr);
     if (header) {
@@ -24863,7 +24867,6 @@ const jsgui = {
       throw (e);
     }
   },
-
   th: (content, attr, children = []) => jsgui.el("th", attr, content),
   td: (content, attr, children = []) => jsgui.el("td", attr, content),
 
@@ -24882,49 +24885,13 @@ const jsgui = {
       throw (e);
     }
   }
-
-
-
 }
 
 
-
-
-// export default {
-//   round: round,
-//   md: md,
-//   add: add,
-//   append: append,
-//   h1: h1,
-//   h2: h2,
-//   h3: h3,
-//   h4: h4,
-//   h5: h5,
-//   h6: h6,
-//   div: div,
-//   section: section,
-//   header: header,
-//   footer: footer,
-//   main: main,
-//   aside: aside,
-//   p: p,
-//   caption: caption,
-//   table: table,
-//   br: br,
-//   hr: hr,
-//   dl: dl,
-//   img: img,
-//   grid: grid,
-//   addToGrid: addToGrid
-// };
-
-
-
-
 // dev only below
-jsgui.add(jsgui.h5("jsgui debug : " + Math.round(Math.random() * 100), { style: "box-shadow: 0 0 100px 0px #b9d854; position: fixed; top: 0; right: 0; padding: 0.5em; background: #282828; color: #BADA55" }))
+jsgui.add(jsgui.h5("jsgui debug v1.1: " + Math.round(Math.random() * 100), { style: "box-shadow: 0 0 100px 0px #b9d854; position: fixed; top: 0; right: 0; padding: 0.5em; background: #282828; color: #BADA55" }))
 jsgui.add(jsgui.img("https://picsum.photos/400/400/?random", "Random test image"))
-// jsgui.foo()
+jsgui.add(jsgui.h5("testaroo"))
 
 /***/ })
 /******/ ]);
