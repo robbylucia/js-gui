@@ -246,7 +246,7 @@ let dl = (items, attr) => {
     let list = el("dl");
     for (let [k, v] of Object.entries(items)) {
       append(list, el("dt", {}, k));
-      append(list, el("dd", {}, v));
+      append(list, el("dd", {}, v === undefined ? "undefined" : v));
     }
     return list;
   }

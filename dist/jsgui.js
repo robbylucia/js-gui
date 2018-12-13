@@ -24900,7 +24900,7 @@ let src_dl = (items, attr) => {
     let list = el("dl");
     for (let [k, v] of Object.entries(items)) {
       src_append(list, el("dt", {}, k));
-      src_append(list, el("dd", {}, v));
+      src_append(list, el("dd", {}, v === undefined ? "undefined" : v));
     }
     return list;
   }
