@@ -190,7 +190,7 @@ let img = (url, alt = "image") => {
 
 // url of link
 // any jsgui element, can be a string (will default to p tag)
-let link = (url, element) => {
+let link, ahref = (url, element) => {
   return el("a", { href: url }, element);
 }
 
@@ -262,10 +262,26 @@ let dl = (items, attr) => {
   }
 }
 
+let ul = (listItems) => {
+  let list = el("ul")
+  listItems.forEach((listItem)=>{
+    append(list, el("li", {}, listItem))
+  })
+  return list;
+}
+
+let ol = (listItems) => {
+  let list = el("ol")
+  listItems.forEach((listItem) => {
+    append(list, el("li", {}, listItem))
+  })
+  return list;
+}
+
 // debug, call jsgui.demo() for this
 let demo = () => {
-  add(h5("jsgui debug v0.2.1: " + Math.round(Math.random() * 100), { style: "box-shadow: 0 0 100px 0px #b9d854; position: fixed; top: 0; right: 0; padding: 0.5em; background: #282828; color: #BADA55" }))
+  add(h5("jsgui debug v0.2.3: " + Math.round(Math.random() * 100), { style: "box-shadow: 0 0 100px 0px #b9d854; position: fixed; top: 0; right: 0; padding: 0.5em; background: #282828; color: #BADA55" }))
   add(img("https://picsum.photos/400/400/?random", "Random test image"))
 }
 
-export { link, demo, bootstrapify, round, md, add, append, h1, h2, h3, h4, h5, h6, div, section, header, footer, main, aside, p, caption, table, br, hr, dl, img, grid, addToGrid };
+export { ol, ul, ahref, link, demo, bootstrapify, round, md, add, append, h1, h2, h3, h4, h5, h6, div, section, header, footer, main, aside, p, caption, table, br, hr, dl, img, grid, addToGrid };
