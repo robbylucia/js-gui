@@ -186,13 +186,18 @@ let hr = () => el("hr");
 
 let img = (url, alt = "image") => {
   return el("img", { src: url, alt: alt });
-}
+};
 
 // url of link
 // any jsgui element, can be a string (will default to p tag)
-let link, ahref = (url, element) => {
-  return el("a", { href: url }, element);
-}
+const link = (url, element, attr = {}) => {
+  attr.href = url;
+  return el("a", attr, element || url);
+};
+const ahref = (url, element, attr = {}) => {
+  attr.href = url;
+  return el("a", attr, element || url);
+};
 
 // ===================================== table
 let table = (data = [], header, attr = {}) => {
@@ -262,18 +267,21 @@ let dl = (items, attr) => {
   }
 }
 
-let ul = (listItems) => {
+let ul = (listItems, attr = {}) => {
+  listItems = Array.isArray(listItems) ? listItems : [listItems];
   let list = el("ul")
-  listItems.forEach((listItem)=>{
-    append(list, el("li", {}, listItem))
+  listItems.forEach((listItem) => {
+    append(list, el("li", attr, listItem))
   })
   return list;
 }
 
-let ol = (listItems) => {
+
+let ol = (listItems, attr = {}) => {
+  listItems = Array.isArray(listItems) ? listItems : [listItems];
   let list = el("ol")
   listItems.forEach((listItem) => {
-    append(list, el("li", {}, listItem))
+    append(list, el("li", attr, listItem))
   })
   return list;
 }
