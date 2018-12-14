@@ -1,6 +1,8 @@
 import showdown from "showdown";
 // import * as d3 from "d3";
 
+let debug_mode = false;
+
 showdown.setFlavor('github');
 const converter = new showdown.Converter();
 
@@ -14,13 +16,12 @@ function ElementException(msg) {
   this.msg = msg;
   this.name = 'ElementException';
 }
-let debug_mode = false;
 
 // JSGUI helper functions
 //allows toggle or set of debug_mode
 const debug = (bool = !debug_mode) => {
   debug_mode = !!bool;
-   if (debug_mode) if (debug_mode) console.log("Debug Mode set to:" + debug_mode)
+  if (debug_mode) console.log("Debug Mode set to:" + debug_mode)
 }
 /**
  * `md` converts markdown to HTML using showdown.js.
@@ -121,7 +122,7 @@ const el = (tag, attr = {}, ...children) => {
     children = children || [];
     // todo: warn for invalid attributes in here
     for (let [k, v] of Object.entries(attr)) {
-      node.setAttribute(k, v)
+      node.setAttribute(k, v === undefined ? "undefined" : v)
     }
 
     const a = child => append(node, child);
@@ -281,7 +282,6 @@ let ul = (listItems, attr = {}) => {
   return list;
 }
 
-
 let ol = (listItems, attr = {}) => {
   listItems = Array.isArray(listItems) ? listItems : [listItems];
   let list = el("ol")
@@ -293,7 +293,7 @@ let ol = (listItems, attr = {}) => {
 
 // debug, call jsgui.demo() for this
 let demo = () => {
-  add(h5("jsgui debug v0.2.3: " + Math.round(Math.random() * 100), { style: "box-shadow: 0 0 100px 0px #b9d854; position: fixed; top: 0; right: 0; padding: 0.5em; background: #282828; color: #BADA55" }))
+  add(h5("jsgui debug v0.3.1: " + Math.round(Math.random() * 100), { style: "box-shadow: 0 0 100px 0px #b9d854; position: fixed; top: 0; right: 0; padding: 0.5em; background: #282828; color: #BADA55" }))
   add(img("https://picsum.photos/400/400/?random", "Random test image"))
 }
 
