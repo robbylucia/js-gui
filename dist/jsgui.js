@@ -5235,6 +5235,7 @@ if (true) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "debug", function() { return debug; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ol", function() { return ol; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ul", function() { return ul; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ahref", function() { return ahref; });
@@ -5284,9 +5285,14 @@ function ElementException(msg) {
   this.msg = msg;
   this.name = 'ElementException';
 }
+let debug_mode = false;
 
 // JSGUI helper functions
-
+//allows toggle or set of debug_mode
+const debug = (bool = !debug_mode) => {
+  debug_mode = !!bool;
+   if (debug_mode) if (debug_mode) console.log("Debug Mode set to:" + debug_mode)
+}
 /**
  * `md` converts markdown to HTML using showdown.js.
  * @param {string} text - The markdown to be converted.
@@ -5333,7 +5339,7 @@ const bootstrapify = () => {
 
 // add element(s) to root, pass through single element OR an array of 'em
 let add = (el) => {
-  console.info("Adding element", el, "to root");
+   if (debug_mode) console.info("Adding element", el, "to root");
   let root = document.getElementById("root");
   if (Array.isArray(el)) {
     el.forEach((x) => {
@@ -5356,14 +5362,14 @@ const append = (container, ...elements) => {
     }
 
     if (!el.nodeType) {
-      console.warn("Appending el without nodetype: ", el);
+       if (debug_mode) console.warn("Appending el without nodetype: ", el);
       el = label(String(el));
     }
     container.appendChild(el);
   }
 
   if (elements.length === 1 && Array.isArray(elements[0])) {
-    console.log("iterable elements", elements);
+     if (debug_mode) console.log("iterable elements", elements);
     elements = elements[0];
   }
   elements.forEach(addToContainer);
@@ -5390,7 +5396,7 @@ const el = (tag, attr = {}, ...children) => {
     }
 
     const a = child => append(node, child);
-    console.log("Attributes:", attr);
+     if (debug_mode) console.log("Attributes:", attr);
     children.forEach(a);
 
     return node;
@@ -5477,9 +5483,9 @@ let table = (data = [], header, attr = {}) => {
   }
 
   let rows = data.map(tr);
-  console.log(rows);
+  if (debug_mode) console.log(rows);
   append(t, rows);
-  console.log(t);
+  if (debug_mode) console.log(t);
   return t;
 }
 
