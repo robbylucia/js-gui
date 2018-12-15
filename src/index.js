@@ -291,10 +291,20 @@ let ol = (listItems, attr = {}) => {
   return list;
 }
 
+let remove = (node) => {
+  let parent = node.parentNode;
+  if (parent) {
+    return parent.removeChild(node);
+  }
+  else {
+    console.log("Could not remove ", node, " no parent found.");
+  }
+}
+
 // debug, call jsgui.demo() for this
 let demo = () => {
-  add(h5("jsgui debug v0.3.1: " + Math.round(Math.random() * 100), { style: "box-shadow: 0 0 100px 0px #b9d854; position: fixed; top: 0; right: 0; padding: 0.5em; background: #282828; color: #BADA55" }))
+  add(h5("jsgui debug v0.3.2: " + Math.round(Math.random() * 100), { style: "box-shadow: 0 0 100px 0px #b9d854; position: fixed; top: 0; right: 0; padding: 0.5em; background: #282828; color: #BADA55" }))
   add(img("https://picsum.photos/400/400/?random", "Random test image"))
 }
 
-export { debug, ol, ul, ahref, link, demo, bootstrapify, round, md, add, append, h1, h2, h3, h4, h5, h6, div, section, header, footer, main, aside, p, caption, table, br, hr, dl, img, grid, addToGrid };
+export { debug, ol, ul, ahref, link, demo, bootstrapify, round, md, add, append, remove, h1, h2, h3, h4, h5, h6, div, section, header, footer, main, aside, p, caption, table, br, hr, dl, img, grid, addToGrid };
