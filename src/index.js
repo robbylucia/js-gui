@@ -87,7 +87,7 @@ const append = (container, ...elements) => {
   // todo: give a warning if it's not a valid child of the node tag
 
   const addToContainer = (el) => {
-    if (!el) {
+    if (!el && el !== "" && el !== 0) {
       throw (new ElementException(`Cannot create an HTML element from null or undefined data: ${el}`));
     }
 
@@ -303,7 +303,7 @@ let remove = (node) => {
 
 // debug, call jsgui.demo() for this
 let demo = () => {
-  add(h5("jsgui debug v0.3.2: " + Math.round(Math.random() * 100), { style: "box-shadow: 0 0 100px 0px #b9d854; position: fixed; top: 0; right: 0; padding: 0.5em; background: #282828; color: #BADA55" }))
+  add(h5("jsgui debug v0.3.3: " + Math.round(Math.random() * 100), { style: "box-shadow: 0 0 100px 0px #b9d854; position: fixed; top: 0; right: 0; padding: 0.5em; background: #282828; color: #BADA55" }))
   add(img("https://picsum.photos/400/400/?random", "Random test image"))
 }
 
